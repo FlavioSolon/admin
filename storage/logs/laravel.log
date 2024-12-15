@@ -126,3 +126,11 @@
 #26 /home/flaviosolon/code/nutricandies/admin/artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
 #27 {main}
 "} 
+[2024-12-15 22:21:12] local.ERROR: Cannot use App\Http\Resources\About\AboutSecondSessionResource as AboutSecondSessionResource because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use App\\Http\\Resources\\About\\AboutSecondSessionResource as AboutSecondSessionResource because the name is already in use at /home/flaviosolon/code/nutricandies/admin/routes/api.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-15 22:21:32] local.ERROR: Cannot use App\Http\Resources\About\AboutSecondSessionResource as AboutSecondSessionResource because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use App\\Http\\Resources\\About\\AboutSecondSessionResource as AboutSecondSessionResource because the name is already in use at /home/flaviosolon/code/nutricandies/admin/routes/api.php:13)
+[stacktrace]
+#0 {main}
+"} 
