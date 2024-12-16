@@ -69,6 +69,7 @@ Route::get('/home/product-feature', function () {
 Route::get('/home/award', function () {
     return AwardResource::collection(Award::all());
 });
+
 //Impact
 Route::get('/impact/initial-impact', function () {
     return InitialImpactResource::collection(InitialImpact::all());
