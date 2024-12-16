@@ -31,14 +31,29 @@ class SlideResource extends Resource
         return $form
             ->schema([
                 Forms\Components\FileUpload::make('image_desktop')
-                    ->image()
-                    ->required(),
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->optimize('webp')
+                    ->directory('slide')
+                    ->disk('public')
+                    ->image(),
                 Forms\Components\FileUpload::make('image_mobile')
-                    ->image()
-                    ->required(),
-                Forms\Components\TextInput::make('device')
-                    ->required()
-                    ->maxLength(255),
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->optimize('webp')
+                    ->directory('slide')
+                    ->disk('public')
+                    ->image(),
             ]);
     }
 
