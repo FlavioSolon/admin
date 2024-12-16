@@ -30,6 +30,16 @@ class AboutThirdSessionResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->optimize('webp')
+                    ->directory('about_third_session')
+                    ->disk('public')
                     ->image()
                     ->required(),
             ]);

@@ -83,10 +83,9 @@ Route::get('/impact/our-story', function () {
     return OurStoryResource::collection(OurStory::all());
 });
 
-Route::get('/impact/our-story-events', function () {
+Route::get('/impact/partner-farmers', function () {
     return PartnerFarmersResource::collection(PartnerFarmers::all());
 });
-
 
 
 // Product
@@ -127,15 +126,11 @@ Route::get('/about/about-first-session', function () {
     return AboutFirstSessionResource::collection(AboutFirstSession::all());
 });
 
-Route::get('/about/about-first-session', function () {
+Route::get('/about/about-second-session', function () {
     return AboutSecondSessionResource::collection(AboutSecondSession::all());
 });
 
-Route::get('/about/about-first-session', function () {
-    return AboutSecondSessionResource::collection(AboutSecondSession::all());
-});
-
-Route::get('/about/about-first-session', function () {
+Route::get('/about/about-third-session', function () {
     return AboutThirdSessionResource::collection(AboutThirdSession::all());
 });
 

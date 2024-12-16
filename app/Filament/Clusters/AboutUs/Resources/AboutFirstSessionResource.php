@@ -33,11 +33,19 @@ class AboutFirstSessionResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
-                    ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->optimize('webp')
+                    ->directory('about_first_session')
+                    ->disk('public')
+                    ->image(),
+                Forms\Components\FileUpload::make('background')
                     ->required(),
-                Forms\Components\TextInput::make('background')
-                    ->required()
-                    ->maxLength(255),
             ]);
     }
 
