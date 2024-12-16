@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SacController;
+use App\Http\Controllers\OmbudsmanController;
+
 use App\Models\AboutTeam;
 use App\Http\Resources\About\AboutTeamResource;
 use App\Models\AboutFirstSession;
@@ -117,6 +121,9 @@ Route::get('/about/about-first-session', function () {
 });
 
 
+Route::post('/inbox/contacts', [ContactController::class, 'store']);
+Route::post('/inbox/sacs', [SacController::class, 'store']);
+Route::post('/inbox/ombudsmen', [OmbudsmanController::class, 'store']);
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
