@@ -50,7 +50,25 @@ use App\Models\Award;
 use App\Http\Resources\Home\AwardResource;
 
 //Home
+Route::get('/home/slide', function () {
+    return SlideResource::collection(Slide::all());
+});
 
+Route::get('/home/inovation', function () {
+    return InnovationResource::collection(Innovation::all());
+});
+
+Route::get('/home/product', function () {
+    return ProductResource::collection(Product::all());
+});
+
+Route::get('/home/product-feature', function () {
+    return ProductFeatureResource::collection(ProductFeature::all());
+});
+
+Route::get('/home/award', function () {
+    return AwardResource::collection(Award::all());
+});
 //Impact
 Route::get('/impact/initial-impact', function () {
     return InitialImpactResource::collection(InitialImpact::all());
