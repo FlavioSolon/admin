@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use IbrahimBougaoua\FilamentRatingStar\Forms\Components\RatingStar;
 use IbrahimBougaoua\FilamentRatingStar\Columns\Components\RatingStarColumns;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Grid;
 
 class TestimonialResource extends Resource
 {
@@ -32,29 +34,46 @@ class TestimonialResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('photo')
-                    ->imageEditor()
-                    ->required()
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->optimize('webp')
-                    ->directory('testimonials')
-                    ->disk('public')
-                    ->image(),
-                Forms\Components\Textarea::make('feedback')
-                    ->required()
-                    ->columnSpanFull(),
-                RatingStar::make('stars')
-                    ->required(),
+                Section::make('Testimonial Details')
+                    ->description('Add a testimonial from a client or user, including their photo, feedback, and rating.')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Name')
+                                    ->placeholder('Enter the name of the client')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\FileUpload::make('photo')
+                                    ->label('Photo')
+                                    ->required()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->optimize('webp')
+                                    ->directory('testimonials')
+                                    ->disk('public')
+                                    ->image()
+                                    ->hint('Upload a photo of the client or user.'),
+                            ]),
+                        Forms\Components\Textarea::make('feedback')
+                            ->label('Feedback')
+                            ->placeholder('Enter the testimonial feedback')
+                            ->required()
+                            ->columnSpanFull()
+                            ->hint('Provide the testimonial given by the client.'),
+                        RatingStar::make('stars')
+                            ->label('Rating')
+                            ->required()
+                            ->hint('Rate the testimonial out of 5 stars.'),
+                    ]),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {

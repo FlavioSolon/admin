@@ -13,6 +13,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Grid;
 
 class PartnerResource extends Resource
 {
@@ -30,25 +32,38 @@ class PartnerResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('logo')
-                    ->imageEditor()
-                    ->required()
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->optimize('webp')
-                    ->directory('partner')
-                    ->disk('public')
-                    ->image(),
-                Forms\Components\TextInput::make('link')
-                    ->required()
-                    ->maxLength(255),
+                Section::make('Partner Details')
+                    ->description('Provide information about the partner, including logo and website link.')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Partner Name')
+                                    ->placeholder('Enter the partner\'s name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\FileUpload::make('logo')
+                                    ->label('Partner Logo')
+                                    ->required()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->optimize('webp')
+                                    ->directory('partner')
+                                    ->disk('public')
+                                    ->image()
+                                    ->hint('Upload the logo of the partner.'),
+                            ]),
+                        Forms\Components\TextInput::make('link')
+                            ->label('Website Link')
+                            ->placeholder('Enter the partner\'s website URL')
+                            ->required()
+                            ->maxLength(255),
+                    ]),
             ]);
     }
 

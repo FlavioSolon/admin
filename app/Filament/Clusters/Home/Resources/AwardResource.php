@@ -13,6 +13,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Grid;
 
 class AwardResource extends Resource
 {
@@ -30,22 +32,33 @@ class AwardResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
-                    ->imageEditor()
-                    ->required()
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->optimize('webp')
-                    ->directory('award')
-                    ->disk('public')
-                    ->image(),
+                Section::make('Award Information')
+                    ->description('Fill in the details for the award, including its name and image.')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Award Name')
+                                    ->placeholder('Enter the name of the award')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\FileUpload::make('image')
+                                    ->label('Award Image')
+                                    ->required()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->optimize('webp')
+                                    ->directory('award')
+                                    ->disk('public')
+                                    ->image()
+                                    ->hint('Upload an image that represents the award.'),
+                            ]),
+                    ]),
             ]);
     }
 

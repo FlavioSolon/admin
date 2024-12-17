@@ -17,25 +17,4 @@ class Innovation extends Model
         'card_title3', 'card_description3', 'card_icon3'
     ];
 
-    // Accessors para retornar as URLs completas dos ícones
-    public function getCardIcon1UrlAttribute()
-    {
-        return $this->card_icon1 ? Storage::url($this->card_icon1) : null;
-    }
-
-    public function getCardIcon2UrlAttribute()
-    {
-        return $this->card_icon2 ? Storage::url($this->card_icon2) : null;
-    }
-
-    public function getCardIcon3UrlAttribute()
-    {
-        return $this->card_icon3 ? Storage::url($this->card_icon3) : null;
-    }
-
-    // Função auxiliar para armazenar ícones
-    public function storeIcon($icon, $folder)
-    {
-        return $icon->store($folder, 'public');
-    }
 }

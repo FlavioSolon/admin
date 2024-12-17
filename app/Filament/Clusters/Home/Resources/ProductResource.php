@@ -13,6 +13,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Grid;
 
 class ProductResource extends Resource
 {
@@ -30,25 +32,38 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
-                    ->imageEditor()
-                    ->required()
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->optimize('webp')
-                    ->directory('product')
-                    ->disk('public')
-                    ->image(),
-                Forms\Components\TextInput::make('link')
-                    ->required()
-                    ->maxLength(255),
+                Section::make('Product Details')
+                    ->description('Enter the product information, including name, image, and link.')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Product Name')
+                                    ->placeholder('Enter the product name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\FileUpload::make('image')
+                                    ->label('Product Image')
+                                    ->required()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->optimize('webp')
+                                    ->directory('product')
+                                    ->disk('public')
+                                    ->image()
+                                    ->hint('Upload an image representing the product.'),
+                            ]),
+                        Forms\Components\TextInput::make('link')
+                            ->label('Product Link')
+                            ->placeholder('Enter a link to the product page')
+                            ->required()
+                            ->maxLength(255),
+                    ]),
             ]);
     }
 
