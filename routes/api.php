@@ -118,21 +118,24 @@ Route::get('/product/partner-creations', function () {
     return PartnerCreationsResource::collection(PartnerCreations::all());
 });
 
+//News
 
 // Lista todas as notícias
 Route::get('/news', function () {
     return NewsResource::collection(News::all());
 });
 
-// Exibe uma única notícia por ID
-// Route::get('/news/{id}', function ($id) {
-//     $news = News::findOrFail($id);
-//     return new NewsResource($news);
-// });
+// Exibe uma única notícia
+Route::get('/news/item/{id}', function ($id) {
+    $news = News::findOrFail($id);
+    return new NewsResource($news);
+});
 
+// Exibe apenas as notícias em destaque
 Route::get('/news/featured', function () {
     return NewsResource::collection(News::where('is_featured', true)->get());
 });
+
 
 
 // About
