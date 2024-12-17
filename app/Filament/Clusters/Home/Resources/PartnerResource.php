@@ -33,7 +33,7 @@ class PartnerResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('logo')
+                Forms\Components\FileUpload::make('logo')
                     ->imageEditor()
                     ->required()
                     ->imageEditorAspectRatios([
