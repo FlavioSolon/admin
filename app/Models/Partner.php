@@ -11,20 +11,4 @@ class Partner extends Model
 
     protected $fillable = ['name', 'logo', 'link'];
 
-    public function getLogoUrlAttribute()
-    {
-        return Storage::url('partners/' . $this->logo);
-    }
-
-    public function setLogoAttribute($value)
-    {
-        if ($value) {
-            $this->attributes['logo'] = $this->storeImage($value, 'partners');
-        }
-    }
-
-    private function storeImage($image, $folder)
-    {
-        return $image->store($folder, 'public');
-    }
 }
