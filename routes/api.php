@@ -125,10 +125,10 @@ Route::get('/news', function () {
 });
 
 // Exibe uma única notícia por ID
-Route::get('/news/{id}', function ($id) {
-    $news = News::findOrFail($id);
-    return new NewsResource($news);
-});
+// Route::get('/news/{id}', function ($id) {
+//     $news = News::findOrFail($id);
+//     return new NewsResource($news);
+// });
 
 Route::get('/news/featured', function () {
     return NewsResource::collection(News::where('is_featured', true)->get());
