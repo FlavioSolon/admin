@@ -48,6 +48,8 @@ use App\Models\Innovation;
 use App\Http\Resources\Home\InnovationResource;
 use App\Models\Award;
 use App\Http\Resources\Home\AwardResource;
+use App\Models\Testimonial;
+use App\Http\Resources\Home\TestimonialResource;
 
 //Home
 Route::get('/home/slide', function () {
@@ -68,6 +70,11 @@ Route::get('/home/product-feature', function () {
 
 Route::get('/home/award', function () {
     return AwardResource::collection(Award::all());
+});
+
+
+Route::get('/home/testimonial', function () {
+    return TestimonialResource::collection(Testimonial::all());
 });
 
 //Impact
