@@ -50,6 +50,8 @@ use App\Models\Award;
 use App\Http\Resources\Home\AwardResource;
 use App\Models\Testimonial;
 use App\Http\Resources\Home\TestimonialResource;
+use App\Models\Partner;
+use App\Http\Resources\Home\PartnerResource;
 
 //Home
 Route::get('/home/slide', function () {
@@ -75,6 +77,10 @@ Route::get('/home/award', function () {
 
 Route::get('/home/testimonial', function () {
     return TestimonialResource::collection(Testimonial::all());
+});
+
+Route::get('/home/partner', function () {
+    return PartnerResource::collection(Partner::all());
 });
 
 //Impact
