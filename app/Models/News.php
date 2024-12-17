@@ -13,12 +13,14 @@ class News extends Model
         'date',
         'authors',
         'badge',
+        'is_featured',
         'content_markdown',
     ];
 
 
     protected $casts = [
         'date' => 'date',
-        'authors' => 'array', 
+        'authors' => 'array',
+        'is_featured' => 'boolean',
     ];
 }

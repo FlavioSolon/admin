@@ -117,6 +117,11 @@ Route::get('/news/{id}', function ($id) {
     return new NewsResource($news);
 });
 
+Route::get('/news/featured', function () {
+    return NewsResource::collection(News::where('is_featured', true)->get());
+});
+
+
 // About
 Route::get('/about/about-team', function () {
     return AboutTeamResource::collection(AboutTeam::all());
