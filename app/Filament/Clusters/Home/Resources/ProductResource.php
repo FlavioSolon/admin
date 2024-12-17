@@ -34,8 +34,18 @@ class ProductResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->required(),
+                    ->imageEditor()
+                    ->required()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->optimize('webp')
+                    ->directory('product')
+                    ->disk('public')
+                    ->image(),
                 Forms\Components\TextInput::make('link')
                     ->required()
                     ->maxLength(255),

@@ -32,6 +32,7 @@ class SlideResource extends Resource
             ->schema([
                 Forms\Components\FileUpload::make('image_desktop')
                     ->imageEditor()
+                    ->required()
                     ->imageEditorAspectRatios([
                         null,
                         '16:9',
@@ -44,6 +45,7 @@ class SlideResource extends Resource
                     ->image(),
                 Forms\Components\FileUpload::make('image_mobile')
                     ->imageEditor()
+                    ->required()
                     ->imageEditorAspectRatios([
                         null,
                         '16:9',
@@ -63,8 +65,6 @@ class SlideResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image_desktop'),
                 Tables\Columns\ImageColumn::make('image_mobile'),
-                Tables\Columns\TextColumn::make('device')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

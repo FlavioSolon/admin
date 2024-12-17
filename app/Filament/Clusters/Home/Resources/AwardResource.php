@@ -34,8 +34,18 @@ class AwardResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->required(),
+                    ->imageEditor()
+                    ->required()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->optimize('webp')
+                    ->directory('award')
+                    ->disk('public')
+                    ->image(),
             ]);
     }
 

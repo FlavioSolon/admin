@@ -34,8 +34,18 @@ class PartnerResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('logo')
+                    ->imageEditor()
                     ->required()
-                    ->maxLength(255),
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->optimize('webp')
+                    ->directory('partner')
+                    ->disk('public')
+                    ->image(),
                 Forms\Components\TextInput::make('link')
                     ->required()
                     ->maxLength(255),

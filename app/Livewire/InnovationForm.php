@@ -63,8 +63,18 @@ class InnovationForm extends Component implements Forms\Contracts\HasForms
 
                     FileUpload::make('card_icon1')
                         ->label('Ícone do Card 1')
+                        ->imageEditor()
+                        ->required()
+                        ->imageEditorAspectRatios([
+                            null,
+                            '16:9',
+                            '4:3',
+                            '1:1',
+                        ])
+                        ->optimize('webp')
+                        ->directory('innovation')
+                        ->disk('public')
                         ->image()
-                        ->directory('innovations')
                         ->placeholder('Envie uma imagem para o ícone do Card 1')
                         ->afterStateUpdated(fn($state) => $this->formState['card_icon1'] = $state),
                 ]),
@@ -85,8 +95,18 @@ class InnovationForm extends Component implements Forms\Contracts\HasForms
 
                     FileUpload::make('card_icon2')
                         ->label('Ícone do Card 2')
+                        ->imageEditor()
+                        ->required()
+                        ->imageEditorAspectRatios([
+                            null,
+                            '16:9',
+                            '4:3',
+                            '1:1',
+                        ])
+                        ->optimize('webp')
+                        ->directory('innovation')
+                        ->disk('public')
                         ->image()
-                        ->directory('innovations')
                         ->placeholder('Envie uma imagem para o ícone do Card 2')
                         ->afterStateUpdated(fn($state) => $this->formState['card_icon2'] = $state),
                 ]),
@@ -107,8 +127,18 @@ class InnovationForm extends Component implements Forms\Contracts\HasForms
 
                     FileUpload::make('card_icon3')
                         ->label('Ícone do Card 3')
+                        ->imageEditor()
+                        ->required()
+                        ->imageEditorAspectRatios([
+                            null,
+                            '16:9',
+                            '4:3',
+                            '1:1',
+                        ])
+                        ->optimize('webp')
+                        ->directory('innovation')
+                        ->disk('public')
                         ->image()
-                        ->directory('innovations')
                         ->placeholder('Envie uma imagem para o ícone do Card 3')
                         ->afterStateUpdated(fn($state) => $this->formState['card_icon3'] = $state),
                 ]),

@@ -37,6 +37,7 @@ class TestimonialResource extends Resource
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('photo')
                     ->imageEditor()
+                    ->required()
                     ->imageEditorAspectRatios([
                         null,
                         '16:9',
