@@ -18,6 +18,8 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 
 class InnovationResource extends Resource
 {
@@ -35,96 +37,116 @@ class InnovationResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('General Information')
+                // General Information section outside Tabs
+                Forms\Components\Section::make('General Information')
                     ->description('Configure the main title and subtitle of the page.')
                     ->schema([
-                        Grid::make(2)
+                        Forms\Components\Grid::make(2)
                             ->schema([
                                 TextInput::make('title')
                                     ->label('Main Title')
                                     ->required()
+                                    ->placeholder('Enter the main title')
                                     ->maxLength(255),
                                 TextInput::make('subtitle')
                                     ->label('Subtitle')
                                     ->required()
+                                    ->placeholder('Enter the subtitle')
                                     ->maxLength(255),
                             ]),
                     ]),
 
-                Section::make('Cards')
-                    ->description('Define the content for the three feature cards.')
-                    ->schema([
-                        Grid::make(3)
+                // Tabs for cards
+                Tabs::make('Innovation Tabs')
+                    ->tabs([
+                        Tab::make('Card 1')
+                            ->label('Card 1')
+                            ->icon('heroicon-o-credit-card')
                             ->schema([
-                                Grid::make(1)
-                                    ->schema([
-                                        TextInput::make('card_title1')
-                                            ->label('Card 1 Title')
-                                            ->required()
-                                            ->maxLength(255),
-                                        TextInput::make('card_description1')
-                                            ->label('Card 1 Description')
-                                            ->required(),
-                                        FileUpload::make('card_icon1')
-                                            ->imageEditor()
-                                            ->required()
-                                            ->imageEditorAspectRatios([
-                                                null,
-                                                '16:9',
-                                                '4:3',
-                                                '1:1',
-                                            ])
-                                            ->optimize('webp')
-                                            ->directory('innovation')
-                                            ->disk('public')
-                                            ->image(),
-                                    ]),
-                                Grid::make(1)
-                                    ->schema([
-                                        TextInput::make('card_title2')
-                                            ->label('Card 2 Title')
-                                            ->required()
-                                            ->maxLength(255),
-                                        TextInput::make('card_description2')
-                                            ->label('Card 2 Description')
-                                            ->required(),
-                                        FileUpload::make('card_icon2')
-                                            ->imageEditor()
-                                            ->required()
-                                            ->imageEditorAspectRatios([
-                                                null,
-                                                '16:9',
-                                                '4:3',
-                                                '1:1',
-                                            ])
-                                            ->optimize('webp')
-                                            ->directory('innovation')
-                                            ->disk('public')
-                                            ->image(),
-                                    ]),
-                                Grid::make(1)
-                                    ->schema([
-                                        TextInput::make('card_title3')
-                                            ->label('Card 3 Title')
-                                            ->required()
-                                            ->maxLength(255),
-                                        TextInput::make('card_description3')
-                                            ->label('Card 3 Description')
-                                            ->required(),
-                                        FileUpload::make('card_icon3')
-                                            ->imageEditor()
-                                            ->required()
-                                            ->imageEditorAspectRatios([
-                                                null,
-                                                '16:9',
-                                                '4:3',
-                                                '1:1',
-                                            ])
-                                            ->optimize('webp')
-                                            ->directory('innovation')
-                                            ->disk('public')
-                                            ->image(),
-                                    ]),
+                                TextInput::make('card_title1')
+                                    ->label('Card 1 Title')
+                                    ->required()
+                                    ->placeholder('Enter the title for Card 1')
+                                    ->maxLength(255),
+                                TextInput::make('card_description1')
+                                    ->label('Card 1 Description')
+                                    ->required()
+                                    ->placeholder('Enter the description for Card 1'),
+                                FileUpload::make('card_icon1')
+                                    ->label('Card 1 Icon')
+                                    ->required()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->optimize('webp')
+                                    ->directory('innovation')
+                                    ->disk('public')
+                                    ->image()
+                                    ->hint('Upload an icon for Card 1.'),
+                            ]),
+
+                        Tab::make('Card 2')
+                            ->label('Card 2')
+                            ->icon('heroicon-o-credit-card')
+                            ->schema([
+                                TextInput::make('card_title2')
+                                    ->label('Card 2 Title')
+                                    ->required()
+                                    ->placeholder('Enter the title for Card 2')
+                                    ->maxLength(255),
+                                TextInput::make('card_description2')
+                                    ->label('Card 2 Description')
+                                    ->required()
+                                    ->placeholder('Enter the description for Card 2'),
+                                FileUpload::make('card_icon2')
+                                    ->label('Card 2 Icon')
+                                    ->required()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->optimize('webp')
+                                    ->directory('innovation')
+                                    ->disk('public')
+                                    ->image()
+                                    ->hint('Upload an icon for Card 2.'),
+                            ]),
+
+                        Tab::make('Card 3')
+                            ->label('Card 3')
+                            ->icon('heroicon-o-credit-card')
+                            ->schema([
+                                TextInput::make('card_title3')
+                                    ->label('Card 3 Title')
+                                    ->required()
+                                    ->placeholder('Enter the title for Card 3')
+                                    ->maxLength(255),
+                                TextInput::make('card_description3')
+                                    ->label('Card 3 Description')
+                                    ->required()
+                                    ->placeholder('Enter the description for Card 3'),
+                                FileUpload::make('card_icon3')
+                                    ->label('Card 3 Icon')
+                                    ->required()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->optimize('webp')
+                                    ->directory('innovation')
+                                    ->disk('public')
+                                    ->image()
+                                    ->hint('Upload an icon for Card 3.'),
                             ]),
                     ]),
             ]);
