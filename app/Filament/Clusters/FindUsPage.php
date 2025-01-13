@@ -4,7 +4,7 @@ namespace App\Filament\Clusters;
 
 use Filament\Clusters\Cluster;
 
-class FindUs extends Cluster
+class FindUsPage extends Cluster
 {
     protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 }
