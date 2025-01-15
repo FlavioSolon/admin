@@ -26,27 +26,42 @@ class ExpertOpinionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('profession')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('photo')
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->optimize('webp')
-                    ->directory('expert_opinion')
-                    ->disk('public')
-                    ->image(),
-                Forms\Components\Textarea::make('description')
-                    ->required(),
+                Forms\Components\Section::make('Expert Details')
+                    ->description('Provide information about the expert.')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Expert Name')
+                            ->required()
+                            ->placeholder('Enter the expert\'s name')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('profession')
+                            ->label('Profession')
+                            ->required()
+                            ->placeholder('Enter the expert\'s profession')
+                            ->maxLength(255),
+                        Forms\Components\FileUpload::make('photo')
+                            ->label('Photo')
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                null,
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
+                            ->optimize('webp')
+                            ->directory('expert_opinion')
+                            ->disk('public')
+                            ->image()
+                            ->hint('Upload a photo of the expert.'),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Description')
+                            ->required()
+                            ->placeholder('Write a brief description about the expert.')
+                            ->maxLength(500),
+                    ]),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {

@@ -28,31 +28,57 @@ class RecipeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('photo')
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->optimize('webp')
-                    ->directory('recipe')
-                    ->disk('public')
-                    ->image(),
-                Forms\Components\TextInput::make('prep_time')
-                    ->numeric(),
-                RatingStar::make('stars')
-                    ->required(),
-                Forms\Components\MarkdownEditor::make('recipe_markdown')
-                    ->label( 'Receita')
-                    ,
-                Forms\Components\MarkdownEditor::make('preparation_markdown')
-                    ->label( 'Preparação')
-                    ,
+                Forms\Components\Section::make('Recipe Information')
+                    ->description('Provide basic details about the recipe.')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Recipe Name')
+                            ->required()
+                            ->placeholder('Enter the recipe name')
+                            ->maxLength(255),
+                        Forms\Components\FileUpload::make('photo')
+                            ->label('Recipe Photo')
+                            ->required()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                null,
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
+                            ->optimize('webp')
+                            ->directory('recipe')
+                            ->disk('public')
+                            ->image()
+                            ->hint('Upload a photo of the recipe.'),
+                        Forms\Components\TextInput::make('prep_time')
+                            ->label('Preparation Time (minutes)')
+                            ->required()
+                            ->numeric()
+                            ->placeholder('Enter the preparation time in minutes'),
+                        RatingStar::make('stars')
+                            ->label('Rating')
+                            ->required()
+                            ->hint('Rate this recipe out of 5 stars.'),
+                    ]),
+
+                Forms\Components\Tabs::make('Recipe Details')
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('Recipe')
+                            ->label('Recipe')
+                            ->schema([
+                                Forms\Components\MarkdownEditor::make('recipe_markdown')
+                                    ->label('Recipe Instructions')
+                                    ->placeholder('Write the recipe instructions here.'),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Preparation')
+                            ->label('Preparation')
+                            ->schema([
+                                Forms\Components\MarkdownEditor::make('preparation_markdown')
+                                    ->label('Preparation Steps')
+                                    ->placeholder('Write the preparation steps here.'),
+                            ]),
+                    ]),
             ]);
     }
 

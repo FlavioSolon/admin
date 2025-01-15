@@ -26,26 +26,37 @@ class PartnerCreationsResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->optimize('webp')
-                    ->directory('partner_creations')
-                    ->disk('public')
-                    ->image(),
+                Forms\Components\Section::make('Partner Creations')
+                    ->description('Provide details about the partner creation.')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Creation Name')
+                            ->required()
+                            ->placeholder('Enter the name of the creation')
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Description')
+                            ->required()
+                            ->placeholder('Write a brief description of the creation.')
+                            ->maxLength(500),
+                        Forms\Components\FileUpload::make('image')
+                            ->label('Creation Image')
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                null,
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
+                            ->optimize('webp')
+                            ->directory('partner_creations')
+                            ->disk('public')
+                            ->image()
+                            ->hint('Upload an image representing the creation.'),
+                    ]),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
