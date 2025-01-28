@@ -31,6 +31,11 @@ class NewsResource extends Resource
                             ->required()
                             ->placeholder('Digite o título da notícia...')
                             ->maxLength(255),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('Slug')
+                            ->required()
+                            ->placeholder('Digite o endereço da notícia...')
+                            ->maxLength(255),
 
                         Forms\Components\Toggle::make('is_featured')
                             ->label('Notícia em Destaque?')

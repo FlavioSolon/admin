@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Events\HomeUpdated;
 
 class Innovation extends Model
 {
@@ -16,5 +17,11 @@ class Innovation extends Model
         'card_title2', 'card_description2', 'card_icon2',
         'card_title3', 'card_description3', 'card_icon3'
     ];
+
+    protected static function booted()
+    {
+        static::saved(fn() => broadcast(new HomeUpdated));
+        static::deleted(fn() => broadcast(new HomeUpdated));
+    }
 
 }
