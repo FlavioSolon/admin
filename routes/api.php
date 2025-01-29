@@ -126,10 +126,10 @@ Route::get('/news', function () {
 });
 
 // Exibe uma única notícia
-Route::get('/news/item/{id}', function ($id) {
-    $news = News::findOrFail($id);
+Route::get('/news/{news:slug}', function (News $news) {
     return new NewsResource($news);
 });
+
 
 // Exibe apenas as notícias em destaque
 Route::get('/news/featured', function () {
