@@ -13,16 +13,21 @@ class ProductFeature extends Model
 
     protected $table = "product_features";
 
-    protected $fillable = ['title', 'subtitle', 'cards'];
-
-    protected $casts = [
-        'cards' => 'array',
+    protected $fillable = [
+        'title', 'subtitle',
+        'card_title1', 'card_description1', 'card_icon1',
+        'card_title2', 'card_description2', 'card_icon2',
+        'card_title3', 'card_description3', 'card_icon3',
     ];
 
+    /**
+     * Eventos de broadcast
+     */
     protected static function booted()
     {
         static::saved(fn() => broadcast(new HomeUpdated));
         static::deleted(fn() => broadcast(new HomeUpdated));
     }
+
 
 }
