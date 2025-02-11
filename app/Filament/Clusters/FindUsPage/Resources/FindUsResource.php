@@ -4,15 +4,17 @@ namespace App\Filament\Clusters\FindUsPage\Resources;
 
 use App\Filament\Clusters\FindUsPage;
 use App\Filament\Clusters\FindUsPage\Resources\FindUsResource\Pages;
-use App\Filament\Clusters\FindUsPage\Resources\FindUsResource\RelationManagers;
 use App\Models\FindUs;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Grid;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
 
 class FindUsResource extends Resource
 {
@@ -22,19 +24,43 @@ class FindUsResource extends Resource
 
     protected static ?string $cluster = FindUsPage::class;
 
+    // Permitir criar apenas se não houver registros existentes
+    public static function canCreate(): bool
+    {
+        return FindUs::count() === 0;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('subtitle')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('background_video')
-                    ->required()
-                    ->maxLength(255),
+                Section::make('Main Information')
+                    ->description('Configure the main details of the Find Us section.')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('title')
+                                    ->label('Title')
+                                    ->required()
+                                    ->placeholder('Enter the title')
+                                    ->maxLength(255),
+                                TextInput::make('subtitle')
+                                    ->label('Subtitle')
+                                    ->required()
+                                    ->placeholder('Enter the subtitle')
+                                    ->maxLength(255),
+                            ]),
+                    ]),
+                Section::make('Media')
+                    ->description('Upload media assets for this section.')
+                    ->schema([
+                        FileUpload::make('background_video')
+                            ->label('Background Video')
+                            ->required()
+                            ->directory('find-us')
+                            ->disk('public')
+                            ->hint('Upload a background video file for the page.'),
+                    ]),
             ]);
     }
 
@@ -43,38 +69,42 @@ class FindUsResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('subtitle')
+                    ->label('Subtitle')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('background_video')
+                    ->label('Background Video')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function ($record) {
+                        Notification::make()
+                            ->title('Cannot Delete Record')
+                            ->body('This record cannot be deleted because only one record is allowed.')
+                            ->warning()
+                            ->send();
+                        return false;
+                    }),
             ]);
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
