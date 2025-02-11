@@ -1,5 +1,10 @@
 <?php
 
+
+use App\Http\Resources\FindUs\FindUsResource;
+use App\Http\Resources\FindUs\StoreLocationResource;
+use App\Models\FindUs;
+use App\Models\StoreLocation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -136,6 +141,15 @@ Route::get('/news/featured', function () {
     return NewsResource::collection(News::where('is_featured', true)->get());
 });
 
+// Find Us
+Route::get('/find-us', function () {
+    return FindUsResource::collection(FindUs::all());
+});
+
+// Store Locations
+Route::get('/store-locations', function () {
+    return StoreLocationResource::collection(StoreLocation::all());
+});
 
 
 // About
