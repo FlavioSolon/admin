@@ -174,7 +174,7 @@ class ProductFeatureResource extends Resource
 
     public static function canCreate(): bool
     {
-        return ProductFeature::count() < 0; // Permite criar registros enquanto houver menos de 3
+        return ProductFeature::count() < 1; // Permite criar registros enquanto houver menos de 3
     }
 
     public static function getPages(): array
