@@ -16,7 +16,8 @@ class StoreLocationResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'map_url' => $this->map_url,
+            'latitude' => $this->latitude, // Adicionando latitude na API
+            'longitude' => $this->longitude, // Adicionando longitude
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

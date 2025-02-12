@@ -29,9 +29,13 @@ class StoreLocationResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('map_url')
-                    ->required()
-                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('latitude')
+                    ->label('Latitude')
+                    ->required(),
+                Forms\Components\TextInput::make('longitude')
+                    ->label('Longitude')
+                    ->required(),
+
             ]);
     }
 
@@ -41,6 +45,12 @@ class StoreLocationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('latitude')
+                    ->label('Latitude')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('longitude')
+                    ->label('Longitude')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
