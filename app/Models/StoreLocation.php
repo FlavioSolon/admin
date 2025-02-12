@@ -8,6 +8,7 @@ class StoreLocation extends Model
 {
     protected $fillable = [
         'name',
-        'map_url',
+        'latitude', // Novo campo
+        'longitude', // Novo campo
     ];
 }
