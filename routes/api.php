@@ -170,7 +170,16 @@ Route::get('/about/about-third-session', function () {
 });
 
 
-Route::post('/inbox/contacts', [ContactController::class, 'store']);
+//Route::post('/inbox/contacts', [ContactController::class, 'store']);
+
+Route::prefix('contacts')->group(function () {
+    Route::get('/', [ContactController::class, 'index']); // Listar todos os contatos
+    Route::post('/', [ContactController::class, 'store']); // Criar um novo contato
+    Route::get('/{contact}', [ContactController::class, 'show']); // Exibir um contato específico
+    Route::put('/{contact}', [ContactController::class, 'update']); // Atualizar um contato específico
+    Route::delete('/{contact}', [ContactController::class, 'destroy']); // Deletar um contato específico
+});
+
 Route::post('/inbox/sacs', [SacController::class, 'store']);
 Route::post('/inbox/ombudsmen', [OmbudsmanController::class, 'store']);
 
