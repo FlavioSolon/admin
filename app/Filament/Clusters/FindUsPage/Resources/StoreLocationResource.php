@@ -29,14 +29,13 @@ class StoreLocationResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('latitude')
-                    ->label('Latitude')
+                Forms\Components\Textarea::make('iframe')
+                    ->label('Google Maps Iframe')
+                    ->helperText('Cole o código HTML do iframe do Google Maps.')
+                    ->rows(4)
                     ->required(),
-                Forms\Components\TextInput::make('longitude')
-                    ->label('Longitude')
-                    ->required(),
-
             ]);
+
     }
 
     public static function table(Table $table): Table
@@ -45,12 +44,6 @@ class StoreLocationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('latitude')
-                    ->label('Latitude')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('longitude')
-                    ->label('Longitude')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
