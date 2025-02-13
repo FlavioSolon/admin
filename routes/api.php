@@ -180,6 +180,8 @@ Route::prefix('contacts')->group(function () {
     Route::delete('/{contact}', [ContactController::class, 'destroy']); // Deletar um contato específico
 });
 
+
+
 Route::post('/inbox/sacs', [SacController::class, 'store']);
 Route::post('/inbox/ombudsmen', [OmbudsmanController::class, 'store']);
 
