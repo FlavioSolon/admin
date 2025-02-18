@@ -19,6 +19,7 @@ class InitialImpactResource extends JsonResource
             'title' => $this->title,
             'subtitle' => $this->subtitle,
             'background_video' => $this->background_video ? asset('storage/' . $this->background_video) : null,
+            'background_image' => $this->background_image ? asset('storage/' . $this->background_image) : null,
             'waste_reduction_kg' => $this->waste_reduction_kg,
             'waste_reduction_description' => $this->waste_reduction_description,
             'waste_reduction_icon' => $this->waste_reduction_icon ? asset('storage/' . $this->waste_reduction_icon) : null,

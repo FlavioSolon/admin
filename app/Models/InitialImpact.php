@@ -16,6 +16,7 @@ class InitialImpact extends Model
         'title',
         'subtitle',
         'background_video',
+        'background_image',
         'waste_reduction_kg',
         'waste_reduction_icon',
         'waste_reduction_description',

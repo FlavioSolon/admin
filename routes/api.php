@@ -36,6 +36,8 @@ use App\Models\PartnerCreations;
 
 use App\Http\Resources\Impact\InitialImpactResource;
 use App\Models\InitialImpact;
+use App\Http\Resources\Impact\OurImpactResource;
+use App\Models\OurImpact;
 use App\Http\Resources\Impact\OurStoryEventsResource;
 use App\Models\OurStoryEvents;
 use App\Http\Resources\Impact\OurStoryResource;
@@ -92,6 +94,11 @@ Route::get('/home/partner', function () {
 Route::get('/impact/initial-impact', function () {
     return InitialImpactResource::collection(InitialImpact::all());
 });
+
+Route::get('/impact/our-impact', function () {
+    return OurImpactResource::collection(OurImpact::all());
+});
+
 
 Route::get('/impact/our-story-events', function () {
     return OurStoryEventsResource::collection(OurStoryEvents::all());
@@ -172,13 +179,14 @@ Route::get('/about/about-third-session', function () {
 
 //Route::post('/inbox/contacts', [ContactController::class, 'store']);
 
-Route::prefix('contacts')->group(function () {
-    Route::get('/', [ContactController::class, 'index']); // Listar todos os contatos
-    Route::post('/', [ContactController::class, 'store']); // Criar um novo contato
-    Route::get('/{contact}', [ContactController::class, 'show']); // Exibir um contato específico
-    Route::put('/{contact}', [ContactController::class, 'update']); // Atualizar um contato específico
-    Route::delete('/{contact}', [ContactController::class, 'destroy']); // Deletar um contato específico
-});
+//Route::prefix('contacts')->group(function () {
+//    Route::get('/', [ContactController::class, 'index']); // Listar todos os contatos
+//    Route::post('/', [ContactController::class, 'store']); // Criar um novo contato
+//    Route::get('/{contact}', [ContactController::class, 'show']); // Exibir um contato específico
+//    Route::put('/{contact}', [ContactController::class, 'update']); // Atualizar um contato específico
+//    Route::delete('/{contact}', [ContactController::class, 'destroy']); // Deletar um contato específico
+//});
+Route::apiResource('contacts', ContactController::class);
 
 
 

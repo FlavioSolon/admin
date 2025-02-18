@@ -1,0 +1,43 @@
+### Criar um novo contato
+POST http://127.0.0.1:8000/api/contacts
+Content-Type: application/json
+
+{
+    "name": "João Silva",
+    "email": "joao.silva@example.com",
+    "sector": "Financeiro",
+    "reason": "Suporte Técnico",
+    "message": "Estou tendo problemas com a integração."
+}
+
+###
+
+### Listar todos os contatos
+GET http://127.0.0.1:8000/api/contacts
+Content-Type: application/json
+
+###
+
+### Mostrar um único contato (substituir {id} pelo ID real)
+GET http://127.0.0.1:8000/api/contacts/1
+Content-Type: application/json
+
+###
+
+### Atualizar um contato existente (substituir {id} pelo ID real)
+PUT http://127.0.0.1:8000/api/contacts/1
+Content-Type: application/json
+
+{
+    "name": "João Silva Atualizado",
+    "email": "joao.silva2@example.com",
+    "sector": "Tecnologia",
+    "reason": "Atualização de Cadastro",
+    "message": "Atualizei minhas informações de contato."
+}
+
+###
+
+### Deletar um contato (substituir {id} pelo ID real)
+DELETE http://127.0.0.1:8000/api/contacts/1
+Content-Type: application/json

@@ -32,6 +32,18 @@ class InitialImpactResource extends Resource
                 Forms\Components\TextInput::make('subtitle')
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('background_video'),
+                Forms\Components\FileUpload::make('background_image')
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->optimize('webp')
+                    ->directory('initial_impact')
+                    ->disk('public')
+                    ->image(),
                 Forms\Components\TextInput::make('waste_reduction_kg')
                     ->numeric(),
                 Forms\Components\FileUpload::make('waste_reduction_icon')
