@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\NewsController;
 use App\Http\Resources\FindUs\FindUsSlideResource;
 use App\Http\Resources\FindUs\FindUsResource;
 use App\Http\Resources\FindUs\ProductAdResource;
@@ -158,11 +159,7 @@ Route::get('/news/{news:slug}', function (News $news) {
     return new NewsResource($news);
 });
 
-// Exibe apenas as notícias em destaque
-Route::get('/news/featured', function () {
-    $featuredNews = News::where('is_featured', true)->latest()->get();
-    return NewsResource::collection($featuredNews);
-});
+Route::get('/news/featured', [NewsController::class, 'featured']);
 
 
 // Find Us
