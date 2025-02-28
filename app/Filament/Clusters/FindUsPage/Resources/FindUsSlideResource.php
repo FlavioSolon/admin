@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Clusters\Impact\Resources;
+namespace App\Filament\Clusters\FindUsPage\Resources;
 
-use App\Filament\Clusters\Impact;
-use App\Filament\Clusters\Impact\Resources\OurStoryEventsResource\Pages;
-use App\Filament\Clusters\Impact\Resources\OurStoryEventsResource\RelationManagers;
-use App\Models\OurStoryEvents;
+use App\Filament\Clusters\FindUsPage;
+use App\Filament\Clusters\FindUsPage\Resources\FindUsSlideResource\Pages;
+use App\Filament\Clusters\FindUsPage\Resources\FindUsSlideResource\RelationManagers;
+use App\Models\FindUsSlide;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,28 +14,21 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class OurStoryEventsResource extends Resource
+class FindUsSlideResource extends Resource
 {
-    protected static ?string $model = OurStoryEvents::class;
+    protected static ?string $model = FindUsSlide::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $cluster = Impact::class;
-
-    protected static \Filament\Pages\SubNavigationPosition $subNavigationPosition = \Filament\Pages\SubNavigationPosition::Top;
+    protected static ?string $cluster = FindUsPage::class;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('year')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\MarkdownEditor::make('description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
+                Forms\Components\FileUpload::make('image_desktop')
                     ->imageEditor()
+                    ->required()
                     ->imageEditorAspectRatios([
                         null,
                         '16:9',
@@ -43,7 +36,20 @@ class OurStoryEventsResource extends Resource
                         '1:1',
                     ])
                     ->optimize('webp')
-                    ->directory('story_events')
+                    ->directory('findus_slide')
+                    ->disk('public')
+                    ->image(),
+                Forms\Components\FileUpload::make('image_mobile')
+                    ->imageEditor()
+                    ->required()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->optimize('webp')
+                    ->directory('findus_slide')
                     ->disk('public')
                     ->image(),
             ]);
@@ -53,12 +59,8 @@ class OurStoryEventsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('year')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image_desktop'),
+                Tables\Columns\ImageColumn::make('image_mobile'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -91,9 +93,9 @@ class OurStoryEventsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOurStoryEvents::route('/'),
-            'create' => Pages\CreateOurStoryEvents::route('/create'),
-            'edit' => Pages\EditOurStoryEvents::route('/{record}/edit'),
+            'index' => Pages\ListFindUsSlides::route('/'),
+            'create' => Pages\CreateFindUsSlide::route('/create'),
+            'edit' => Pages\EditFindUsSlide::route('/{record}/edit'),
         ];
     }
 }

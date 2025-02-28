@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Events\NewsUpdated;
 
+/**
+ * @method static where(string $string, string $slug)
+ */
 class News extends Model
 {
     protected $fillable = [
@@ -20,32 +23,71 @@ class News extends Model
         'slug'
     ];
 
-
     protected $casts = [
         'date' => 'date',
         'authors' => 'array',
         'is_featured' => 'boolean',
     ];
 
-    public static function boot()
+    /**
+     * Método para substituir a chave usada nas rotas.
+     * Faz com que o Laravel use o slug ao invés do id por padrão.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    /**
+     * Boot do modelo.
+     * Configura a lógica para criar/atualizar o slug quando necessário.
+     */
+    public static function boot(): void
     {
         parent::boot();
 
-        static::creating(function ($news) {
-            $news->slug = Str::slug($news->title);
+        // Geração automática de slug ao criar uma notícia
+        static::creating(static function ($news) {
+            $news->slug = static::generateUniqueSlug($news->title);
         });
 
-        static::updating(function ($news) {
+        // Atualização do slug ao modificar o título
+        static::updating(static function ($news) {
             if ($news->isDirty('title')) {
-                $news->slug = Str::slug($news->title);
+                $news->slug = static::generateUniqueSlug($news->title, $news->id);
             }
         });
     }
 
-    protected static function booted()
+    /**
+     * Lógica para garantir que o slug gerado seja único.
+     *
+     * @param string $title Título da notícia.
+     * @param int|null $ignoreId ID a ser ignorado para prevenir conflitos ao atualizar.
+     * @return string Slug único.
+     */
+    public static function generateUniqueSlug(string $title, int $ignoreId = null): string
     {
-        static::saved(fn() => broadcast(new NewsUpdated));
-        static::deleted(fn() => broadcast(new NewsUpdated));
+        $baseSlug = Str::slug($title);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        // Verifica a existência do slug
+        while (static::where('slug', $slug)
+            ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
+            ->exists()) {
+            $slug = $baseSlug . '-' . $counter++;
+        }
+
+        return $slug;
     }
 
+    /**
+     * Eventos Model Broadcast
+     */
+    protected static function booted(): void
+    {
+        static::saved(static fn() => broadcast(new NewsUpdated));
+        static::deleted(static fn() => broadcast(new NewsUpdated));
+    }
 }

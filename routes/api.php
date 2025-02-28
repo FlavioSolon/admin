@@ -1,10 +1,24 @@
 <?php
 
 
+use App\Http\Resources\FindUs\FindUsSlideResource;
 use App\Http\Resources\FindUs\FindUsResource;
+use App\Http\Resources\FindUs\ProductAdResource;
 use App\Http\Resources\FindUs\StoreLocationResource;
+use App\Http\Resources\RulesAndPolicies\ExchangeAndReturnResource;
+use App\Http\Resources\RulesAndPolicies\PrivacyPolicyResource;
+use App\Http\Resources\RulesAndPolicies\RefundPolicyResource;
+use App\Http\Resources\RulesAndPolicies\ShippingPolicyResource;
+use App\Http\Resources\RulesAndPolicies\TermsOfServiceResource;
+use App\Models\ExchangeAndReturn;
 use App\Models\FindUs;
+use App\Models\FindUsSlide;
+use App\Models\PrivacyPolicy;
+use App\Models\ProductAd;
+use App\Models\RefundPolicy;
+use App\Models\ShippingPolicy;
 use App\Models\StoreLocation;
+use App\Models\TermsOfService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +73,7 @@ use App\Models\Testimonial;
 use App\Http\Resources\Home\TestimonialResource;
 use App\Models\Partner;
 use App\Http\Resources\Home\PartnerResource;
+
 
 //Home
 Route::get('/home/slide', function () {
@@ -134,29 +149,40 @@ Route::get('/product/partner-creations', function () {
 
 // Lista todas as notícias
 Route::get('/news', function () {
-    return NewsResource::collection(News::all());
+    $news = News::latest()->get(); // Ordena as notícias da mais recente para a mais antiga
+    return NewsResource::collection($news);
 });
 
-// Exibe uma única notícia
+// Exibe uma única notícia pelo slug
 Route::get('/news/{news:slug}', function (News $news) {
     return new NewsResource($news);
 });
 
-
 // Exibe apenas as notícias em destaque
 Route::get('/news/featured', function () {
-    return NewsResource::collection(News::where('is_featured', true)->get());
+    $featuredNews = News::where('is_featured', true)->latest()->get();
+    return NewsResource::collection($featuredNews);
 });
+
 
 // Find Us
 Route::get('/find-us', function () {
     return FindUsResource::collection(FindUs::all());
 });
 
+Route::get('/find-us/slide', function () {
+    return FindUsSlideResource::collection(FindUsSlide::all());
+});
+
 // Store Locations
 Route::get('/store-locations', function () {
     return StoreLocationResource::collection(StoreLocation::all());
 });
+
+Route::get('/find-us/product', function () {
+    return ProductAdResource::collection(ProductAd::all());
+});
+
 
 
 // About
@@ -177,6 +203,26 @@ Route::get('/about/about-third-session', function () {
 });
 
 
+// RulesAndPolicies
+Route::get('/rules/exchange-return', function () {
+    return ExchangeAndReturnResource::collection(ExchangeAndReturn::all());
+});
+
+Route::get('/policy/privacy-policy', function () {
+    return PrivacyPolicyResource::collection(PrivacyPolicy::all());
+});
+
+Route::get('/policy/RefundPolicy', function () {
+    return RefundPolicyResource::collection(RefundPolicy::all());
+});
+
+Route::get('/policy/shipping-policy', function () {
+    return ShippingPolicyResource::collection(ShippingPolicy::all());
+});
+
+Route::get('/rules/terms-service', function () {
+    return TermsOfServiceResource::collection(TermsOfService::all());
+});
 //Route::post('/inbox/contacts', [ContactController::class, 'store']);
 
 //Route::prefix('contacts')->group(function () {

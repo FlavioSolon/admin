@@ -170,7 +170,6 @@ class OurImpactResource extends Resource
 
     public static function canCreate(): bool
     {
-        // Limitando apenas a criação de um único registro
         return OurImpact::count() < 1;
     }
 

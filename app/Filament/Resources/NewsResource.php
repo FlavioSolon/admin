@@ -24,46 +24,46 @@ class NewsResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make() // Substitui o antigo Card
-                    ->schema([
-                        // Título e Destaque
-                        Forms\Components\TextInput::make('title')
-                            ->label('Título da Notícia')
-                            ->required()
-                            ->placeholder('Digite o título da notícia...')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('slug')
-                            ->label('Slug')
-                            ->required()
-                            ->placeholder('Digite o endereço da notícia...')
-                            ->maxLength(255),
+                ->schema([
+                    // Título e Destaque
+                    Forms\Components\TextInput::make('title')
+                        ->label('Título da Notícia')
+                        ->required()
+                        ->placeholder('Digite o título da notícia...')
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('slug')
+                        ->label('Slug')
+                        ->required()
+                        ->placeholder('Digite o endereço da notícia...')
+                        ->maxLength(255),
 
-                        Forms\Components\Toggle::make('is_featured')
-                            ->label('Notícia em Destaque?')
-                            ->onColor('success')
-                            ->offColor('danger')
-                            ->inline(),
+                    Forms\Components\Toggle::make('is_featured')
+                        ->label('Notícia em Destaque?')
+                        ->onColor('success')
+                        ->offColor('danger')
+                        ->inline(),
 
-                        // Descrição e Imagem
-                        Forms\Components\Textarea::make('description')
-                            ->label('Descrição Breve')
-                            ->placeholder('Digite uma breve descrição da notícia...')
-                            ->rows(3)
-                            ->columnSpanFull(),
+                    // Descrição e Imagem
+                    Forms\Components\Textarea::make('description')
+                        ->label('Descrição Breve')
+                        ->placeholder('Digite uma breve descrição da notícia...')
+                        ->rows(3)
+                        ->columnSpanFull(),
 
-                        Forms\Components\FileUpload::make('image')
-                            ->label('Imagem da Notícia')
-                            ->imageEditor()
-                            ->imageEditorAspectRatios([
-                                null,
-                                '16:9',
-                                '4:3',
-                                '1:1',
-                            ])
-                            ->directory('news')
-                            ->disk('public')
-                            ->image()
-                            ->helperText('Faça upload de uma imagem no formato .jpg, .png ou .webp (Tamanho recomendado: 16:9).'),
-                    ])
+                    Forms\Components\FileUpload::make('image')
+                        ->label('Imagem da Notícia')
+                        ->imageEditor()
+                        ->imageEditorAspectRatios([
+                            null,
+                            '16:9',
+                            '4:3',
+                            '1:1',
+                        ])
+                        ->directory('news')
+                        ->disk('public')
+                        ->image()
+                        ->helperText('Faça upload de uma imagem no formato .jpg, .png ou .webp (Tamanho recomendado: 16:9).'),
+                ])
                     ->columns(2), // Divide os campos em 2 colunas
 
                 Forms\Components\Tabs::make('Conteúdo e Detalhes')
@@ -120,7 +120,7 @@ class NewsResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ToggleColumn::make('is_featured')
-                ->label('Notícia em Destaque?'),
+                    ->label('Notícia em Destaque?'),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
@@ -162,8 +162,8 @@ class NewsResource extends Resource
     {
         return [
             'index' => Pages\ListNews::route('/'),
-            'create' => Pages\CreateNews::route('/create'),
-            'edit' => Pages\EditNews::route('/{record}/edit'),
+            //'create' => Pages\CreateNews::route('/create'),
+            //'edit' => Pages\EditNews::route('/{record}/edit'),
         ];
     }
 }

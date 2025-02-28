@@ -22,6 +22,8 @@ class PartnerFarmersResource extends Resource
 
     protected static ?string $cluster = Impact::class;
 
+    protected static \Filament\Pages\SubNavigationPosition $subNavigationPosition = \Filament\Pages\SubNavigationPosition::Top;
+
     public static function form(Form $form): Form
     {
         return $form
