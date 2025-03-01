@@ -4,6 +4,7 @@
 use App\Http\Controllers\NewsController;
 use App\Http\Resources\FindUs\FindUsSlideResource;
 use App\Http\Resources\FindUs\FindUsResource;
+use App\Http\Resources\FindUs\PartnerRetailersResource;
 use App\Http\Resources\FindUs\ProductAdResource;
 use App\Http\Resources\FindUs\StoreLocationResource;
 use App\Http\Resources\RulesAndPolicies\ExchangeAndReturnResource;
@@ -14,6 +15,7 @@ use App\Http\Resources\RulesAndPolicies\TermsOfServiceResource;
 use App\Models\ExchangeAndReturn;
 use App\Models\FindUs;
 use App\Models\FindUsSlide;
+use App\Models\PartnerRetailers;
 use App\Models\PrivacyPolicy;
 use App\Models\ProductAd;
 use App\Models\RefundPolicy;
@@ -180,7 +182,9 @@ Route::get('/find-us/product', function () {
     return ProductAdResource::collection(ProductAd::all());
 });
 
-
+Route::get('/find-us/partner-retailers', function () {
+    return PartnerRetailersResource::collection(PartnerRetailers::all());
+});
 
 // About
 Route::get('/about/about-team', function () {
