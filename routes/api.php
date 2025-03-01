@@ -159,7 +159,7 @@ Route::get('/news/{news:slug}', function (News $news) {
     return new NewsResource($news);
 });
 
-Route::get('/news/featured', [NewsController::class, 'featured']);
+Route::get('/featured-news', [NewsController::class, 'featured']);
 
 
 // Find Us
