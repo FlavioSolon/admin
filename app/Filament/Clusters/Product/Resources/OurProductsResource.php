@@ -34,11 +34,6 @@ class OurProductsResource extends Resource
                             ->required()
                             ->placeholder('Enter the product name')
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('link_product')
-                            ->label('Product Link')
-                            ->url()
-                            ->required()
-                            ->placeholder('Enter a URL to the product page'),
                         Forms\Components\MarkdownEditor::make('description')
                             ->label('Product Description')
                             ->required()
