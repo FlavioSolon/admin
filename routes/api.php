@@ -229,9 +229,9 @@ Route::get('/rules/terms-service', function () {
 //    Route::put('/{contact}', [ContactController::class, 'update']); // Atualizar um contato específico
 //    Route::delete('/{contact}', [ContactController::class, 'destroy']); // Deletar um contato específico
 //});
-Route::apiResource('contact', ContactController::class); // Mantém POST /api/contacts
-Route::apiResource('sacs', SacController::class)->only(['store']); // POST /api/sacs
-Route::apiResource('ombudsmen', OmbudsmanController::class)->only(['store']);
+Route::post('/contacts/store', [ContactController::class, 'store'])->name('contacts.store');
+Route::post('/sacs/store', [SacController::class, 'store'])->name('sacs.store');
+Route::post('/ombudsmen/store', [OmbudsmanController::class, 'store'])->name('ombudsmen.store');
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
