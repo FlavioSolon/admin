@@ -33,7 +33,8 @@ class InitialImpactResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('subtitle')
                     ->maxLength(255),
-                Forms\Components\FileUpload::make('background_video'),
+                Forms\Components\FileUpload::make('background_video')
+                    ->maxSize(500000),
                 Forms\Components\FileUpload::make('background_image')
                     ->imageEditor()
                     ->imageEditorAspectRatios([
