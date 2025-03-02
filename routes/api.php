@@ -224,18 +224,11 @@ Route::get('/policy/shipping-policy', function () {
 Route::get('/rules/terms-service', function () {
     return TermsOfServiceResource::collection(TermsOfService::all());
 });
-//Route::post('/inbox/contacts', [ContactController::class, 'store']);
 
-//Route::prefix('contacts')->group(function () {
-//    Route::get('/', [ContactController::class, 'index']); // Listar todos os contatos
-//    Route::post('/', [ContactController::class, 'store']); // Criar um novo contato
-//    Route::get('/{contact}', [ContactController::class, 'show']); // Exibir um contato específico
-//    Route::put('/{contact}', [ContactController::class, 'update']); // Atualizar um contato específico
-//    Route::delete('/{contact}', [ContactController::class, 'destroy']); // Deletar um contato específico
-//});
-Route::post('/contacts/store', [ContactController::class, 'store'])->name('contacts.store');
-Route::post('/sacs/store', [SacController::class, 'store'])->name('sacs.store');
-Route::post('/ombudsmen/store', [OmbudsmanController::class, 'store'])->name('ombudsmen.store');
+Route::apiResource('contacts', ContactController::class);
+Route::apiResource('sacs', SacController::class);
+Route::apiResource('ombudsmen', OmbudsmanController::class);
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
