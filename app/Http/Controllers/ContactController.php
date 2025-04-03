@@ -7,19 +7,24 @@ use App\Http\Resources\Inbox\ContactResource;
 use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ContactNotification;
 
 class ContactController extends Controller
 {
     // Criação (store) - POST /contacts
     public function store(ContactRequest $request): JsonResponse
     {
-        // Criação do contato
         $contact = Contact::create($request->validated());
+
+        // Enviar notificação para o Contato Geral
+        Notification::route('mail', 'secom@nutricandies.com')
+            ->notify(new ContactNotification($request->validated()));
 
         return response()->json([
             'message' => 'Parabéns! Você criou um novo contato com sucesso.',
-            'description' => 'Os dados do contato foram adicionados à base de dados.',
-            'data' => new ContactResource($contact), // Retorna o contato criado
+            'description' => 'Os dados do contato foram adicionados à base de dados e uma notificação foi enviada.',
+            'data' => new ContactResource($contact),
         ], 201);
     }
 

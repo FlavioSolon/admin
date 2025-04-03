@@ -6,6 +6,7 @@ use App\Http\Requests\Inbox\OmbudsmanRequest;
 use App\Http\Resources\Inbox\OmbudsmanResource;
 use App\Models\Ombudsman;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Notification;
 
 class OmbudsmanController extends Controller
 {
@@ -14,9 +15,13 @@ class OmbudsmanController extends Controller
     {
         $ombudsman = Ombudsman::create($request->validated());
 
+        // Enviar notificação para a Ouvidoria
+        Notification::route('mail', 'ouvidoria@nutricandies.com')
+            ->notify(new OmbudsmanNotification($request->validated()));
+
         return response()->json([
             'message' => 'Parabéns! Sua solicitação à ouvidoria foi registrada com sucesso.',
-            'description' => 'Os dados foram adicionados ao sistema de ouvidoria.',
+            'description' => 'Os dados foram adicionados ao sistema de ouvidoria e uma notificação foi enviada.',
             'data' => new OmbudsmanResource($ombudsman),
         ], 201);
     }

@@ -6,6 +6,8 @@ use App\Http\Requests\Inbox\SacRequest;
 use App\Http\Resources\Inbox\SacResource;
 use App\Models\Sac;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\SacNotification;
 
 class SacController extends Controller
 {
@@ -14,9 +16,13 @@ class SacController extends Controller
     {
         $sac = Sac::create($request->validated());
 
+        // Enviar notificação para o SAC
+        Notification::route('mail', 'sac@nutricandies.com')
+            ->notify(new SacNotification($request->validated()));
+
         return response()->json([
             'message' => 'Parabéns! Sua solicitação ao SAC foi registrada com sucesso.',
-            'description' => 'Os dados foram adicionados ao sistema de atendimento ao cliente.',
+            'description' => 'Os dados foram adicionados ao sistema de atendimento ao cliente e uma notificação foi enviada.',
             'data' => new SacResource($sac),
         ], 201);
     }
