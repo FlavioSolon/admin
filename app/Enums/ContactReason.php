@@ -8,4 +8,5 @@ enum ContactReason: string
     case ELOGIOS = 'elogios';
     case RECLAMACOES = 'reclamacoes';
     case PROPOSTAS = 'propostas';
+    case CONSUMIDOR = 'consumidor';
 }

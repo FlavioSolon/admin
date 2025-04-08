@@ -26,15 +26,7 @@ class ContactNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Novo Contato Geral - Nutricandies')
-            ->greeting('Olá, equipe de Contato!')
-            ->line('Um novo contato foi registrado:')
-            ->line('**Nome:** ' . $this->data['name'])
-            ->line('**E-mail:** ' . $this->data['email'])
-            ->line('**Setor:** ' . $this->data['sector'])
-            ->line('**Motivo:** ' . $this->data['reason'])
-            ->line('**Mensagem:** ' . $this->data['message'])
-            ->action('Acessar o Sistema', url('https://nutricandies.com'))
-            ->line('Por favor, verifique!');
+            ->view('emails.contact', ['data' => $this->data]);
     }
 
     public function toArray($notifiable)

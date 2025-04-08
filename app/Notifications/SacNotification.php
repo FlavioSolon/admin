@@ -26,14 +26,7 @@ class SacNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Nova Solicitação ao SAC - Nutricandies')
-            ->greeting('Olá, equipe do SAC!')
-            ->line('Uma nova solicitação foi registrada:')
-            ->line('**Nome:** ' . $this->data['name'])
-            ->line('**E-mail:** ' . $this->data['email'])
-            ->line('**Produto Reportado:** ' . $this->data['reported_product'])
-            ->line('**Problema Reportado:** ' . $this->data['reported_problem'])
-            ->action('Acessar o Sistema', url('https://nutricandies.com'))
-            ->line('Por favor, verifique!');
+            ->view('emails.sac', ['data' => $this->data]);
     }
 
     public function toArray($notifiable)

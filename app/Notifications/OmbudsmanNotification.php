@@ -26,14 +26,7 @@ class OmbudsmanNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Nova Solicitação à Ouvidoria - Nutricandies')
-            ->greeting('Olá, equipe da Ouvidoria!')
-            ->line('Uma nova solicitação foi registrada:')
-            ->line('**Nome:** ' . $this->data['name'])
-            ->line('**E-mail:** ' . $this->data['email'])
-            ->line('**Canal:** ' . $this->data['channel'])
-            ->line('**Mensagem:** ' . $this->data['message'])
-            ->action('Acessar o Sistema', url('https://nutricandies.com'))
-            ->line('Por favor, verifique!');
+            ->view('emails.ombudsman', ['data' => $this->data]);
     }
 
     public function toArray($notifiable)
