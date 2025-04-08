@@ -88,7 +88,7 @@
         </div>
 
         <p>Por favor, analise a solicitação e entre em contato com o remetente, se necessário. Agradecemos pela atenção!</p>
-        <a href="https://nutricandies.com/admin" class="button">Acessar o Sistema</a>
+        <a href="https://api.nutricandies.com/admin" class="button">Acessar o Sistema</a>
     </div>
     <div class="footer">
         <p>© 2025 Nutricandies. Todos os direitos reservados.</p>
