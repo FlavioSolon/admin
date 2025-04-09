@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Sac extends Model
 {
+    use Notifiable;
     protected $table = "sacs";
     protected $fillable = [
         'name',

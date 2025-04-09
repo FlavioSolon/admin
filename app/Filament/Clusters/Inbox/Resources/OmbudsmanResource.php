@@ -6,11 +6,13 @@ use App\Filament\Clusters\Inbox;
 use App\Filament\Clusters\Inbox\Resources\OmbudsmanResource\Pages;
 use App\Filament\Clusters\Inbox\Resources\OmbudsmanResource\RelationManagers;
 use App\Models\Ombudsman;
+use App\Notifications\ReplyNotification;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -65,7 +67,25 @@ class OmbudsmanResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Action::make('reply')
+                    ->label('Responder')
+                    ->icon('heroicon-o-envelope')
+                    ->color('primary')
+                    ->form([
+                        Forms\Components\TextInput::make('subject')
+                            ->label('Assunto')
+                            ->required()
+                            ->default('Resposta à sua solicitação na Ouvidoria - Nutricandies'),
+                        Forms\Components\Textarea::make('message')
+                            ->label('Mensagem')
+                            ->required()
+                            ->rows(5),
+                    ])
+                    ->action(function (Ombudsman $record, array $data) {
+                        $record->notify(new ReplyNotification($data['subject'], $data['message']));
+                    })
+                    ->modalHeading('Responder Solicitação da Ouvidoria')
+                    ->modalSubmitActionLabel('Enviar Resposta'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
