@@ -28,9 +28,11 @@ class ReplyNotification extends Notification
     {
         return (new MailMessage)
             ->subject($this->subject)
-            ->greeting('Olá, ' . $notifiable->name . '!')
-            ->line($this->message)
-            ->salutation('Atenciosamente, Equipe Nutricandies');
+            ->view('emails.reply', [
+                'subject' => $this->subject,
+                'message' => $this->message,
+                'notifiable' => $notifiable,
+            ]);
     }
 
     public function toArray($notifiable)
