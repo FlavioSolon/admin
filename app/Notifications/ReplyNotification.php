@@ -11,12 +11,12 @@ class ReplyNotification extends Notification
     use Queueable;
 
     protected $subject;
-    protected $message;
+    protected $replyMessage; // Renomeamos para evitar conflitos
 
-    public function __construct(string $subject, string $message)
+    public function __construct(string $subject, string $replyMessage)
     {
         $this->subject = $subject;
-        $this->message = $message;
+        $this->replyMessage = $replyMessage;
     }
 
     public function via($notifiable)
@@ -30,7 +30,7 @@ class ReplyNotification extends Notification
             ->subject($this->subject)
             ->view('emails.reply', [
                 'subject' => $this->subject,
-                'message' => $this->message,
+                'replyMessage' => $this->replyMessage, // Usamos a nova variável
                 'notifiable' => $notifiable,
             ]);
     }

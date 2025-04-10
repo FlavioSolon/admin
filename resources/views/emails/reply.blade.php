@@ -21,7 +21,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background-color: #1a1a1a;
+            background-color: #1a1a1a; /* Tom escuro da logo */
             padding: 20px;
             text-align: center;
         }
@@ -71,7 +71,7 @@
         <p>Recebemos sua solicitação e estamos respondendo com as informações abaixo. Agradecemos pelo seu contato!</p>
 
         <div class="message-box">
-            <p>{{ $message }}</p>
+            <p>{{ $replyMessage }}</p> <!-- Alterado de $message para $replyMessage -->
         </div>
 
         <p>Se precisar de mais informações ou tiver outras dúvidas, não hesite em nos contatar novamente.</p>
