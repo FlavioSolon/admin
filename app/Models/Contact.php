@@ -14,5 +14,6 @@ class Contact extends Model
         'sector',
         'reason',
         'message',
+        'is_viewed',
     ];
 }

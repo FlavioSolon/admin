@@ -13,5 +13,6 @@ class Ombudsman extends Model
         'email',
         'channel',
         'message',
+        'is_viewed',
     ];
 }

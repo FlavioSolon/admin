@@ -24,6 +24,18 @@ class SacResource extends Resource
 
     protected static ?string $cluster = Inbox::class;
 
+    protected static ?string $navigationLabel = 'SAC';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) Sac::where('is_viewed', false)->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return Sac::where('is_viewed', false)->count() > 0 ? 'danger' : 'success';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -49,24 +61,59 @@ class SacResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->color('gray')
+                    ->weight(fn ($record) => $record->is_viewed ? 'normal' : 'bold')
+                    ->description(fn ($record) => $record->is_viewed ? 'Visto' : 'Não visto'),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->color('gray'),
                 Tables\Columns\TextColumn::make('reported_product')
-                    ->searchable(),
+                    ->searchable()
+                    ->color('gray'),
+                Tables\Columns\IconColumn::make('is_viewed')
+                    ->label('Visto')
+                    ->boolean()
+                    ->trueColor('success')
+                    ->falseColor('danger'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Data de Envio')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->color('gray'),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->color('gray'),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->recordUrl(null)
             ->filters([
-                //
+                Tables\Filters\Filter::make('is_viewed')
+                    ->label('Não Vistos')
+                    ->query(fn (Builder $query) => $query->where('is_viewed', false))
+                    ->default(),
             ])
             ->actions([
+                Action::make('view')
+                    ->label('Marcar como Visto')
+                    ->icon('heroicon-o-eye')
+                    ->color('warning')
+                    ->action(function (Sac $record) {
+                        $record->update(['is_viewed' => true]);
+                    })
+                    ->hidden(fn (Sac $record) => $record->is_viewed), // Esconder se já foi visto
+                Action::make('view_details')
+                    ->label('Ver Detalhes')
+                    ->icon('heroicon-o-document-text')
+                    ->color('info')
+                    ->modalHeading('Detalhes da Solicitação do SAC')
+                    ->modalContent(function (Sac $record) {
+                        return view('filament.resources.sac-details', ['record' => $record]);
+                    })
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Fechar'),
                 Action::make('reply')
                     ->label('Responder')
                     ->icon('heroicon-o-envelope')
@@ -83,6 +130,7 @@ class SacResource extends Resource
                     ])
                     ->action(function (Sac $record, array $data) {
                         $record->notify(new ReplyNotification($data['subject'], $data['message']));
+                        $record->update(['is_viewed' => true]);
                     })
                     ->modalHeading('Responder Solicitação do SAC')
                     ->modalSubmitActionLabel('Enviar Resposta'),
@@ -91,7 +139,9 @@ class SacResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->striped()
+            ->modifyQueryUsing(fn (Builder $query) => $query->orderBy('created_at', 'desc'));
     }
 
     public static function getRelations(): array
@@ -106,7 +156,6 @@ class SacResource extends Resource
         return [
             'index' => Pages\ListSacs::route('/'),
             'create' => Pages\CreateSac::route('/create'),
-            'edit' => Pages\EditSac::route('/{record}/edit'),
         ];
     }
 }

@@ -24,6 +24,18 @@ class OmbudsmanResource extends Resource
 
     protected static ?string $cluster = Inbox::class;
 
+    protected static ?string $navigationLabel = 'Ouvidoria';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) Ombudsman::where('is_viewed', false)->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return Ombudsman::where('is_viewed', false)->count() > 0 ? 'danger' : 'success';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -49,24 +61,59 @@ class OmbudsmanResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->color('gray')
+                    ->weight(fn ($record) => $record->is_viewed ? 'normal' : 'bold')
+                    ->description(fn ($record) => $record->is_viewed ? 'Visto' : 'Não visto'),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->color('gray'),
                 Tables\Columns\TextColumn::make('channel')
-                    ->searchable(),
+                    ->searchable()
+                    ->color('gray'),
+                Tables\Columns\IconColumn::make('is_viewed')
+                    ->label('Visto')
+                    ->boolean()
+                    ->trueColor('success')
+                    ->falseColor('danger'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Data de Envio')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->color('gray'),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->color('gray'),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->recordUrl(null)
             ->filters([
-                //
+                Tables\Filters\Filter::make('is_viewed')
+                    ->label('Não Vistos')
+                    ->query(fn (Builder $query) => $query->where('is_viewed', false))
+                    ->default(),
             ])
             ->actions([
+                Action::make('view')
+                    ->label('Marcar como Visto')
+                    ->icon('heroicon-o-eye')
+                    ->color('warning')
+                    ->action(function (Ombudsman $record) {
+                        $record->update(['is_viewed' => true]);
+                    })
+                    ->hidden(fn (Ombudsman $record) => $record->is_viewed),
+                Action::make('view_details')
+                    ->label('Ver Detalhes')
+                    ->icon('heroicon-o-document-text')
+                    ->color('info')
+                    ->modalHeading('Detalhes da Solicitação da Ouvidoria')
+                    ->modalContent(function (Ombudsman $record) {
+                        return view('filament.resources.ombudsman-details', ['record' => $record]);
+                    })
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Fechar'),
                 Action::make('reply')
                     ->label('Responder')
                     ->icon('heroicon-o-envelope')
@@ -83,6 +130,7 @@ class OmbudsmanResource extends Resource
                     ])
                     ->action(function (Ombudsman $record, array $data) {
                         $record->notify(new ReplyNotification($data['subject'], $data['message']));
+                        $record->update(['is_viewed' => true]);
                     })
                     ->modalHeading('Responder Solicitação da Ouvidoria')
                     ->modalSubmitActionLabel('Enviar Resposta'),
@@ -91,7 +139,9 @@ class OmbudsmanResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->striped()
+            ->modifyQueryUsing(fn (Builder $query) => $query->orderBy('created_at', 'desc'));
     }
 
     public static function getRelations(): array
@@ -106,7 +156,6 @@ class OmbudsmanResource extends Resource
         return [
             'index' => Pages\ListOmbudsmen::route('/'),
             'create' => Pages\CreateOmbudsman::route('/create'),
-            'edit' => Pages\EditOmbudsman::route('/{record}/edit'),
         ];
     }
 }

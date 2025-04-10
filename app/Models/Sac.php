@@ -14,5 +14,6 @@ class Sac extends Model
         'email',
         'reported_product',
         'reported_problem',
+        'is_viewed',
     ];
 }
