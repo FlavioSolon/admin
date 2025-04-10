@@ -26,6 +26,8 @@ class ContactResource extends Resource
 
     protected static ?string $navigationLabel = 'Contato Geral';
 
+    protected static \Filament\Pages\SubNavigationPosition $subNavigationPosition = \Filament\Pages\SubNavigationPosition::Top;
+
     public static function getNavigationBadge(): ?string
     {
         return (string) Contact::where('is_viewed', false)->count();

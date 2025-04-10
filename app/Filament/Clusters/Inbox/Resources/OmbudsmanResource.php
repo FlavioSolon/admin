@@ -25,6 +25,7 @@ class OmbudsmanResource extends Resource
     protected static ?string $cluster = Inbox::class;
 
     protected static ?string $navigationLabel = 'Ouvidoria';
+    protected static \Filament\Pages\SubNavigationPosition $subNavigationPosition = \Filament\Pages\SubNavigationPosition::Top;
 
     public static function getNavigationBadge(): ?string
     {
